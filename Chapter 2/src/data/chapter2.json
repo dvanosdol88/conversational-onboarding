@@ -1,0 +1,1154 @@
+{
+  "chapter": {
+    "id": "chapter_2",
+    "title": "Where You Are",
+    "subtitle": "Your financial snapshot",
+    "estimatedMinutes": 6,
+    "description": "Let's take inventory of your income, what you've built, and what you owe."
+  },
+  "variables": {
+    "dataEntryMethod": {
+      "type": "string",
+      "enum": ["manual", "upload", "link"],
+      "default": null,
+      "description": "How they want to enter financial data"
+    },
+    "annualIncome": {
+      "type": "number",
+      "default": null,
+      "description": "Base annual income before taxes"
+    },
+    "hasBonus": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they receive bonuses"
+    },
+    "bonusAmount": {
+      "type": "number",
+      "default": 0,
+      "description": "Typical annual bonus"
+    },
+    "hasOtherIncome": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they have other income sources"
+    },
+    "otherIncomeAmount": {
+      "type": "number",
+      "default": 0,
+      "description": "Other annual income"
+    },
+    "otherIncomeSource": {
+      "type": "string",
+      "default": "",
+      "description": "Source of other income"
+    },
+    "totalIncome": {
+      "type": "number",
+      "default": 0,
+      "description": "Calculated total annual income"
+    },
+    "checkingSavings": {
+      "type": "number",
+      "default": 0,
+      "description": "Cash in checking and savings"
+    },
+    "has401k": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they have a 401k"
+    },
+    "balance401k": {
+      "type": "number",
+      "default": 0,
+      "description": "401k balance"
+    },
+    "hasTraditionalIRA": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they have a Traditional IRA"
+    },
+    "balanceTraditionalIRA": {
+      "type": "number",
+      "default": 0,
+      "description": "Traditional IRA balance"
+    },
+    "hasRothIRA": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they have a Roth IRA"
+    },
+    "balanceRothIRA": {
+      "type": "number",
+      "default": 0,
+      "description": "Roth IRA balance"
+    },
+    "hasPension": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they have a pension"
+    },
+    "pensionDetails": {
+      "type": "string",
+      "default": "",
+      "description": "Pension details"
+    },
+    "hasTaxableBrokerage": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they have taxable investment accounts"
+    },
+    "balanceTaxableBrokerage": {
+      "type": "number",
+      "default": 0,
+      "description": "Taxable brokerage balance"
+    },
+    "ownsRealEstate": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they own real estate"
+    },
+    "primaryHomeValue": {
+      "type": "number",
+      "default": 0,
+      "description": "Primary home market value"
+    },
+    "otherRealEstateValue": {
+      "type": "number",
+      "default": 0,
+      "description": "Other real estate value"
+    },
+    "hasOtherAssets": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they have other significant assets"
+    },
+    "otherAssetsValue": {
+      "type": "number",
+      "default": 0,
+      "description": "Other assets value"
+    },
+    "otherAssetsDescription": {
+      "type": "string",
+      "default": "",
+      "description": "Description of other assets"
+    },
+    "totalAssets": {
+      "type": "number",
+      "default": 0,
+      "description": "Calculated total assets"
+    },
+    "hasMortgage": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they have a mortgage"
+    },
+    "mortgageBalance": {
+      "type": "number",
+      "default": 0,
+      "description": "Remaining mortgage balance"
+    },
+    "mortgageRate": {
+      "type": "number",
+      "default": null,
+      "description": "Mortgage interest rate"
+    },
+    "hasStudentLoans": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they have student loans"
+    },
+    "studentLoanBalance": {
+      "type": "number",
+      "default": 0,
+      "description": "Total student loan balance"
+    },
+    "hasAutoLoan": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they have auto loans"
+    },
+    "autoLoanBalance": {
+      "type": "number",
+      "default": 0,
+      "description": "Total auto loan balance"
+    },
+    "hasCreditCardDebt": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they carry credit card balances"
+    },
+    "creditCardBalance": {
+      "type": "number",
+      "default": 0,
+      "description": "Total credit card balance"
+    },
+    "hasOtherDebt": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether they have other debts"
+    },
+    "otherDebtBalance": {
+      "type": "number",
+      "default": 0,
+      "description": "Other debt balance"
+    },
+    "otherDebtDescription": {
+      "type": "string",
+      "default": "",
+      "description": "Description of other debt"
+    },
+    "totalDebt": {
+      "type": "number",
+      "default": 0,
+      "description": "Calculated total debt"
+    },
+    "netWorth": {
+      "type": "number",
+      "default": 0,
+      "description": "Calculated net worth (assets - debts)"
+    },
+    "liquidNetWorth": {
+      "type": "number",
+      "default": 0,
+      "description": "Net worth excluding real estate equity"
+    }
+  },
+  "nodes": [
+    {
+      "id": "chapter_2_intro",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Great progress, {{userName}}! Now let's look at where you stand today — your income, what you've saved, and what you owe.\n\nThis is like taking a financial snapshot. Don't worry about being exact — estimates are fine. We can always refine later.",
+      "nextNode": "data_entry_method",
+      "delay": 2500
+    },
+    {
+      "id": "data_entry_method",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "How would you like to share your financial information?",
+      "setsVariable": "dataEntryMethod",
+      "options": [
+        {
+          "id": "manual",
+          "label": "I'll enter it manually",
+          "value": "manual",
+          "nextNode": "manual_entry_start"
+        },
+        {
+          "id": "upload",
+          "label": "Upload my statements",
+          "value": "upload",
+          "nextNode": "upload_coming_soon"
+        },
+        {
+          "id": "link",
+          "label": "Connect my accounts (Plaid)",
+          "value": "link",
+          "nextNode": "link_coming_soon"
+        }
+      ]
+    },
+    {
+      "id": "upload_coming_soon",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Statement upload is coming soon! For now, let's enter the information manually. It only takes a few minutes, and estimates are totally fine.",
+      "nextNode": "manual_entry_start",
+      "delay": 2000
+    },
+    {
+      "id": "link_coming_soon",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Account linking is coming soon! For now, let's enter the information manually. It only takes a few minutes, and estimates are totally fine.",
+      "nextNode": "manual_entry_start",
+      "delay": 2000
+    },
+    {
+      "id": "manual_entry_start",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Let's start with your income.",
+      "nextNode": "ask_annual_income",
+      "delay": 1500
+    },
+
+
+    {
+      "id": "ask_annual_income",
+      "type": "input",
+      "speaker": "ai",
+      "content": "What's your approximate annual income before taxes?",
+      "inputType": "number",
+      "placeholder": "e.g. 85000",
+      "helperText": "Your base salary or typical annual earnings. Don't include bonuses yet.",
+      "validation": {
+        "required": true,
+        "min": 0
+      },
+      "setsVariable": "annualIncome",
+      "nextNode": "income_response"
+    },
+    {
+      "id": "income_response",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Got it — ${{annualIncome}} annually.",
+      "nextNode": "ask_has_bonus",
+      "delay": 1200
+    },
+    {
+      "id": "ask_has_bonus",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Do you typically receive bonuses or commissions on top of that?",
+      "setsVariable": "hasBonus",
+      "options": [
+        {
+          "id": "yes_bonus",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_bonus_amount"
+        },
+        {
+          "id": "no_bonus",
+          "label": "No",
+          "value": false,
+          "nextNode": "ask_has_other_income"
+        }
+      ]
+    },
+    {
+      "id": "ask_bonus_amount",
+      "type": "input",
+      "speaker": "ai",
+      "content": "In a typical year, how much do you receive in bonuses or commissions?",
+      "inputType": "number",
+      "placeholder": "e.g. 15000",
+      "helperText": "Your best estimate of a normal year.",
+      "validation": {
+        "required": true,
+        "min": 0
+      },
+      "setsVariable": "bonusAmount",
+      "nextNode": "bonus_response"
+    },
+    {
+      "id": "bonus_response",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Nice — that's a meaningful addition to your income.",
+      "nextNode": "ask_has_other_income",
+      "delay": 1500
+    },
+    {
+      "id": "ask_has_other_income",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Any other income sources? (rental income, side business, investments, etc.)",
+      "setsVariable": "hasOtherIncome",
+      "options": [
+        {
+          "id": "yes_other",
+          "label": "Yes, I have other income",
+          "value": true,
+          "nextNode": "ask_other_income_details"
+        },
+        {
+          "id": "no_other",
+          "label": "No, that's it",
+          "value": false,
+          "nextNode": "income_summary"
+        }
+      ]
+    },
+    {
+      "id": "ask_other_income_details",
+      "type": "multi_input",
+      "speaker": "ai",
+      "content": "Tell me about your other income:",
+      "inputs": [
+        {
+          "id": "other_income_source",
+          "label": "What's the source?",
+          "inputType": "text",
+          "placeholder": "e.g. Rental property, consulting, dividends",
+          "setsVariable": "otherIncomeSource",
+          "required": true
+        },
+        {
+          "id": "other_income_amount",
+          "label": "Approximately how much per year?",
+          "inputType": "number",
+          "placeholder": "e.g. 12000",
+          "setsVariable": "otherIncomeAmount",
+          "required": true
+        }
+      ],
+      "nextNode": "other_income_response"
+    },
+    {
+      "id": "other_income_response",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "{{otherIncomeSource}} bringing in about ${{otherIncomeAmount}} a year — good to know.",
+      "nextNode": "income_summary",
+      "delay": 1500
+    },
+    {
+      "id": "income_summary",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "So your total annual income is roughly **${{annualIncome + bonusAmount + otherIncomeAmount}}**. That's what we're working with.\n\nNow let's look at what you've built up — your assets.",
+      "nextNode": "assets_intro",
+      "delay": 2500,
+      "computeVariable": {
+        "name": "totalIncome",
+        "logic": "annualIncome + bonusAmount + otherIncomeAmount"
+      }
+    },
+
+
+    {
+      "id": "assets_intro",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "We'll go through this in buckets: cash, retirement accounts, investments, real estate, and anything else significant.",
+      "nextNode": "ask_checking_savings",
+      "delay": 2000
+    },
+    {
+      "id": "ask_checking_savings",
+      "type": "input",
+      "speaker": "ai",
+      "content": "How much do you have in checking and savings accounts combined?",
+      "inputType": "number",
+      "placeholder": "e.g. 25000",
+      "helperText": "Your liquid cash — emergency fund, everyday accounts, etc.",
+      "validation": {
+        "required": true,
+        "min": 0
+      },
+      "setsVariable": "checkingSavings",
+      "nextNode": "cash_response"
+    },
+    {
+      "id": "cash_response",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "${{checkingSavings}} in cash reserves. {{checkingSavings > 50000 ? 'That\\'s a solid cushion.' : checkingSavings > 20000 ? 'Good — you\\'ve got a buffer.' : checkingSavings > 10000 ? 'That\\'s a start.' : 'We might talk about building that up a bit.'}}",
+      "nextNode": "retirement_intro",
+      "delay": 1800
+    },
+    {
+      "id": "retirement_intro",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Now let's go through your retirement accounts. I'll ask about each type separately.",
+      "nextNode": "ask_has_401k",
+      "delay": 1500
+    },
+    {
+      "id": "ask_has_401k",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Do you have a 401(k), 403(b), or similar employer retirement plan?",
+      "setsVariable": "has401k",
+      "options": [
+        {
+          "id": "yes_401k",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_401k_balance"
+        },
+        {
+          "id": "no_401k",
+          "label": "No",
+          "value": false,
+          "nextNode": "ask_has_traditional_ira"
+        }
+      ]
+    },
+    {
+      "id": "ask_401k_balance",
+      "type": "input",
+      "speaker": "ai",
+      "content": "What's your current 401(k) balance?",
+      "inputType": "number",
+      "placeholder": "e.g. 150000",
+      "helperText": "Include all employer plans — current and old 401(k)s you haven't rolled over.",
+      "validation": {
+        "required": true,
+        "min": 0
+      },
+      "setsVariable": "balance401k",
+      "nextNode": "401k_response"
+    },
+    {
+      "id": "401k_response",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "${{balance401k}} in employer retirement plans. {{balance401k > 500000 ? 'Impressive — you\\'ve been diligent.' : balance401k > 200000 ? 'Solid progress.' : balance401k > 50000 ? 'You\\'re building.' : 'Every bit counts.'}}",
+      "nextNode": "ask_has_traditional_ira",
+      "delay": 1800
+    },
+    {
+      "id": "ask_has_traditional_ira",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Do you have a Traditional IRA?",
+      "setsVariable": "hasTraditionalIRA",
+      "helperText": "This is a tax-deferred retirement account you open yourself (not through an employer).",
+      "options": [
+        {
+          "id": "yes_trad_ira",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_traditional_ira_balance"
+        },
+        {
+          "id": "no_trad_ira",
+          "label": "No",
+          "value": false,
+          "nextNode": "ask_has_roth_ira"
+        }
+      ]
+    },
+    {
+      "id": "ask_traditional_ira_balance",
+      "type": "input",
+      "speaker": "ai",
+      "content": "What's your Traditional IRA balance?",
+      "inputType": "number",
+      "placeholder": "e.g. 75000",
+      "validation": {
+        "required": true,
+        "min": 0
+      },
+      "setsVariable": "balanceTraditionalIRA",
+      "nextNode": "ask_has_roth_ira"
+    },
+    {
+      "id": "ask_has_roth_ira",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Do you have a Roth IRA?",
+      "setsVariable": "hasRothIRA",
+      "helperText": "This is a retirement account where withdrawals in retirement are tax-free.",
+      "options": [
+        {
+          "id": "yes_roth",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_roth_ira_balance"
+        },
+        {
+          "id": "no_roth",
+          "label": "No",
+          "value": false,
+          "nextNode": "ask_has_pension"
+        }
+      ]
+    },
+    {
+      "id": "ask_roth_ira_balance",
+      "type": "input",
+      "speaker": "ai",
+      "content": "What's your Roth IRA balance?",
+      "inputType": "number",
+      "placeholder": "e.g. 50000",
+      "validation": {
+        "required": true,
+        "min": 0
+      },
+      "setsVariable": "balanceRothIRA",
+      "nextNode": "ask_has_pension"
+    },
+    {
+      "id": "ask_has_pension",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Do you have a pension (defined benefit plan) from any employer?",
+      "setsVariable": "hasPension",
+      "options": [
+        {
+          "id": "yes_pension",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_pension_details"
+        },
+        {
+          "id": "no_pension",
+          "label": "No",
+          "value": false,
+          "nextNode": "retirement_summary"
+        }
+      ]
+    },
+    {
+      "id": "ask_pension_details",
+      "type": "input",
+      "speaker": "ai",
+      "content": "Tell me a bit about your pension — who's it from, and do you know the expected monthly benefit?",
+      "inputType": "textarea",
+      "placeholder": "e.g. State teacher pension, expected $3,500/month at age 62",
+      "helperText": "Don't worry if you don't have exact numbers — we can look it up together later.",
+      "validation": {
+        "required": false
+      },
+      "setsVariable": "pensionDetails",
+      "nextNode": "pension_response"
+    },
+    {
+      "id": "pension_response",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Pensions are valuable — that's guaranteed income in retirement. Your advisor will factor this in.",
+      "nextNode": "retirement_summary",
+      "delay": 1800
+    },
+    {
+      "id": "retirement_summary",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Good — I've got your retirement picture. {{(balance401k + balanceTraditionalIRA + balanceRothIRA) > 0 ? 'You\\'ve got about $' + (balance401k + balanceTraditionalIRA + balanceRothIRA) + ' saved for retirement so far.' : 'Looks like retirement savings is an area to focus on.'}}",
+      "nextNode": "ask_has_taxable_brokerage",
+      "delay": 2000
+    },
+    {
+      "id": "ask_has_taxable_brokerage",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Do you have any taxable investment accounts? (Brokerage accounts, stocks, ETFs, mutual funds outside retirement accounts)",
+      "setsVariable": "hasTaxableBrokerage",
+      "options": [
+        {
+          "id": "yes_brokerage",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_brokerage_balance"
+        },
+        {
+          "id": "no_brokerage",
+          "label": "No",
+          "value": false,
+          "nextNode": "ask_owns_real_estate"
+        }
+      ]
+    },
+    {
+      "id": "ask_brokerage_balance",
+      "type": "input",
+      "speaker": "ai",
+      "content": "What's the total value of your taxable investment accounts?",
+      "inputType": "number",
+      "placeholder": "e.g. 100000",
+      "helperText": "Combine all brokerage accounts.",
+      "validation": {
+        "required": true,
+        "min": 0
+      },
+      "setsVariable": "balanceTaxableBrokerage",
+      "nextNode": "brokerage_response"
+    },
+    {
+      "id": "brokerage_response",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "${{balanceTaxableBrokerage}} in taxable investments. These give you flexibility since they're not locked up until retirement.",
+      "nextNode": "ask_owns_real_estate",
+      "delay": 1800
+    },
+    {
+      "id": "ask_owns_real_estate",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Do you own any real estate?",
+      "setsVariable": "ownsRealEstate",
+      "options": [
+        {
+          "id": "yes_real_estate",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_primary_home_value"
+        },
+        {
+          "id": "no_real_estate",
+          "label": "No, I rent",
+          "value": false,
+          "nextNode": "ask_has_other_assets"
+        }
+      ]
+    },
+    {
+      "id": "ask_primary_home_value",
+      "type": "input",
+      "speaker": "ai",
+      "content": "What's the approximate market value of your primary home?",
+      "inputType": "number",
+      "placeholder": "e.g. 450000",
+      "helperText": "Your best guess at what it would sell for today.",
+      "validation": {
+        "required": true,
+        "min": 0
+      },
+      "setsVariable": "primaryHomeValue",
+      "nextNode": "ask_other_real_estate"
+    },
+    {
+      "id": "ask_other_real_estate",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Do you own any other real estate? (rental properties, vacation home, land)",
+      "options": [
+        {
+          "id": "yes_other_re",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_other_real_estate_value"
+        },
+        {
+          "id": "no_other_re",
+          "label": "No, just my primary home",
+          "value": false,
+          "nextNode": "ask_has_other_assets"
+        }
+      ]
+    },
+    {
+      "id": "ask_other_real_estate_value",
+      "type": "input",
+      "speaker": "ai",
+      "content": "What's the total value of your other real estate?",
+      "inputType": "number",
+      "placeholder": "e.g. 300000",
+      "validation": {
+        "required": true,
+        "min": 0
+      },
+      "setsVariable": "otherRealEstateValue",
+      "nextNode": "ask_has_other_assets"
+    },
+    {
+      "id": "ask_has_other_assets",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Any other significant assets we should know about? (business ownership, crypto, valuable collections, etc.)",
+      "setsVariable": "hasOtherAssets",
+      "options": [
+        {
+          "id": "yes_other_assets",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_other_assets_details"
+        },
+        {
+          "id": "no_other_assets",
+          "label": "No, that covers it",
+          "value": false,
+          "nextNode": "assets_complete"
+        }
+      ]
+    },
+    {
+      "id": "ask_other_assets_details",
+      "type": "multi_input",
+      "speaker": "ai",
+      "content": "Tell me about your other assets:",
+      "inputs": [
+        {
+          "id": "other_assets_desc",
+          "label": "What are they?",
+          "inputType": "text",
+          "placeholder": "e.g. Small business, Bitcoin, art collection",
+          "setsVariable": "otherAssetsDescription",
+          "required": true
+        },
+        {
+          "id": "other_assets_val",
+          "label": "Approximate total value?",
+          "inputType": "number",
+          "placeholder": "e.g. 50000",
+          "setsVariable": "otherAssetsValue",
+          "required": true
+        }
+      ],
+      "nextNode": "assets_complete"
+    },
+    {
+      "id": "assets_complete",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Great — I've got the asset picture. Now let's look at the other side: what you owe.",
+      "nextNode": "debts_intro",
+      "delay": 1800,
+      "computeVariable": {
+        "name": "totalAssets",
+        "logic": "checkingSavings + balance401k + balanceTraditionalIRA + balanceRothIRA + balanceTaxableBrokerage + primaryHomeValue + otherRealEstateValue + otherAssetsValue"
+      }
+    },
+
+
+    {
+      "id": "debts_intro",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Most people have some debt — mortgages, student loans, car payments. No judgment here. We just need to know what we're working with.",
+      "nextNode": "ask_has_mortgage",
+      "delay": 2000
+    },
+    {
+      "id": "ask_has_mortgage",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Do you have a mortgage?",
+      "setsVariable": "hasMortgage",
+      "options": [
+        {
+          "id": "yes_mortgage",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_mortgage_details"
+        },
+        {
+          "id": "no_mortgage",
+          "label": "No",
+          "value": false,
+          "nextNode": "ask_has_student_loans"
+        }
+      ]
+    },
+    {
+      "id": "ask_mortgage_details",
+      "type": "multi_input",
+      "speaker": "ai",
+      "content": "Tell me about your mortgage:",
+      "inputs": [
+        {
+          "id": "mortgage_bal",
+          "label": "Remaining balance?",
+          "inputType": "number",
+          "placeholder": "e.g. 320000",
+          "setsVariable": "mortgageBalance",
+          "required": true
+        },
+        {
+          "id": "mortgage_rate",
+          "label": "Interest rate? (if you know it)",
+          "inputType": "number",
+          "placeholder": "e.g. 3.5",
+          "setsVariable": "mortgageRate",
+          "required": false
+        }
+      ],
+      "nextNode": "mortgage_response"
+    },
+    {
+      "id": "mortgage_response",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "{{mortgageRate ? '$' + mortgageBalance + ' at ' + mortgageRate + '% — ' + (mortgageRate < 4 ? 'that\\'s a great rate. Probably worth keeping.' : mortgageRate < 6 ? 'decent rate given the market.' : 'rates have been wild. We can talk about whether refinancing makes sense.') : '$' + mortgageBalance + ' remaining on your mortgage.'}}",
+      "nextNode": "ask_has_student_loans",
+      "delay": 2000
+    },
+    {
+      "id": "ask_has_student_loans",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Do you have any student loans?",
+      "setsVariable": "hasStudentLoans",
+      "options": [
+        {
+          "id": "yes_student",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_student_loan_balance"
+        },
+        {
+          "id": "no_student",
+          "label": "No",
+          "value": false,
+          "nextNode": "ask_has_auto_loan"
+        }
+      ]
+    },
+    {
+      "id": "ask_student_loan_balance",
+      "type": "input",
+      "speaker": "ai",
+      "content": "What's your total student loan balance?",
+      "inputType": "number",
+      "placeholder": "e.g. 45000",
+      "helperText": "Include federal and private loans.",
+      "validation": {
+        "required": true,
+        "min": 0
+      },
+      "setsVariable": "studentLoanBalance",
+      "nextNode": "student_loan_response"
+    },
+    {
+      "id": "student_loan_response",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "${{studentLoanBalance}} in student loans. {{studentLoanBalance > 100000 ? 'That\\'s significant — we\\'ll definitely factor that into your plan.' : studentLoanBalance > 50000 ? 'Pretty common these days. We\\'ll work on a payoff strategy.' : 'Manageable. We\\'ll get that taken care of.'}}",
+      "nextNode": "ask_has_auto_loan",
+      "delay": 1800
+    },
+    {
+      "id": "ask_has_auto_loan",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Any car loans?",
+      "setsVariable": "hasAutoLoan",
+      "options": [
+        {
+          "id": "yes_auto",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_auto_loan_balance"
+        },
+        {
+          "id": "no_auto",
+          "label": "No",
+          "value": false,
+          "nextNode": "ask_has_credit_card_debt"
+        }
+      ]
+    },
+    {
+      "id": "ask_auto_loan_balance",
+      "type": "input",
+      "speaker": "ai",
+      "content": "What's your total auto loan balance?",
+      "inputType": "number",
+      "placeholder": "e.g. 18000",
+      "validation": {
+        "required": true,
+        "min": 0
+      },
+      "setsVariable": "autoLoanBalance",
+      "nextNode": "ask_has_credit_card_debt"
+    },
+    {
+      "id": "ask_has_credit_card_debt",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Do you carry any credit card balances month to month?",
+      "setsVariable": "hasCreditCardDebt",
+      "helperText": "Be honest — this is important for planning. No judgment.",
+      "options": [
+        {
+          "id": "yes_cc",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_credit_card_balance"
+        },
+        {
+          "id": "no_cc",
+          "label": "No, I pay in full each month",
+          "value": false,
+          "nextNode": "ask_has_other_debt"
+        }
+      ]
+    },
+    {
+      "id": "ask_credit_card_balance",
+      "type": "input",
+      "speaker": "ai",
+      "content": "What's your total credit card balance?",
+      "inputType": "number",
+      "placeholder": "e.g. 8000",
+      "validation": {
+        "required": true,
+        "min": 0
+      },
+      "setsVariable": "creditCardBalance",
+      "nextNode": "credit_card_response"
+    },
+    {
+      "id": "credit_card_response",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "${{creditCardBalance}} on cards. {{creditCardBalance > 20000 ? 'That\\'s eating into your progress with those interest rates. Priority one.' : creditCardBalance > 10000 ? 'Credit card rates are brutal. We\\'ll work on knocking that out.' : 'Not too bad — let\\'s get that cleared.'}} We'll make a plan to tackle this.",
+      "nextNode": "ask_has_other_debt",
+      "delay": 2000
+    },
+    {
+      "id": "ask_has_other_debt",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Any other debts? (personal loans, medical debt, family loans, etc.)",
+      "setsVariable": "hasOtherDebt",
+      "options": [
+        {
+          "id": "yes_other_debt",
+          "label": "Yes",
+          "value": true,
+          "nextNode": "ask_other_debt_details"
+        },
+        {
+          "id": "no_other_debt",
+          "label": "No, that's everything",
+          "value": false,
+          "nextNode": "debts_complete"
+        }
+      ]
+    },
+    {
+      "id": "ask_other_debt_details",
+      "type": "multi_input",
+      "speaker": "ai",
+      "content": "Tell me about your other debt:",
+      "inputs": [
+        {
+          "id": "other_debt_desc",
+          "label": "What is it?",
+          "inputType": "text",
+          "placeholder": "e.g. Personal loan, medical bills",
+          "setsVariable": "otherDebtDescription",
+          "required": true
+        },
+        {
+          "id": "other_debt_bal",
+          "label": "Total amount?",
+          "inputType": "number",
+          "placeholder": "e.g. 5000",
+          "setsVariable": "otherDebtBalance",
+          "required": true
+        }
+      ],
+      "nextNode": "debts_complete"
+    },
+    {
+      "id": "debts_complete",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Got it. Let me put this all together...",
+      "nextNode": "calculate_net_worth",
+      "delay": 2000,
+      "computeVariable": {
+        "name": "totalDebt",
+        "logic": "mortgageBalance + studentLoanBalance + autoLoanBalance + creditCardBalance + otherDebtBalance"
+      }
+    },
+
+
+    {
+      "id": "calculate_net_worth",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Calculating your net worth...",
+      "nextNode": "net_worth_reveal",
+      "delay": 2500,
+      "computeVariable": {
+        "name": "netWorth",
+        "logic": "totalAssets - totalDebt"
+      }
+    },
+    {
+      "id": "net_worth_reveal",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Here's your financial snapshot:\n\n**Total Assets:** ${{totalAssets}}\n**Total Debt:** ${{totalDebt}}\n\n**Net Worth: ${{netWorth}}**",
+      "nextNode": "net_worth_reaction",
+      "delay": 3000
+    },
+    {
+      "id": "net_worth_reaction",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "{{netWorth > 1000000 ? 'You\\'ve built over a million dollars in net worth. That\\'s significant — you\\'re in a strong position to pursue your goals.' : netWorth > 500000 ? 'Half a million in net worth — you\\'ve made real progress. Plenty to work with here.' : netWorth > 250000 ? 'A quarter million in net worth. You\\'re building a solid foundation.' : netWorth > 100000 ? 'You\\'ve crossed the six-figure net worth mark. That\\'s a meaningful milestone.' : netWorth > 0 ? 'You\\'re in positive territory. Every dollar of net worth is a step forward.' : 'Your debts currently outweigh your assets. That\\'s okay — we\\'ll build a plan to turn that around.'}}",
+      "nextNode": "liquid_net_worth_note",
+      "delay": 2500
+    },
+    {
+      "id": "liquid_net_worth_note",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "{{ownsRealEstate ? 'Note: About $' + (primaryHomeValue + otherRealEstateValue - mortgageBalance) + ' of that is home equity, which isn\\'t liquid. Your advisor will help you think about the difference between what you own and what you can actually use.' : 'Since you don\\'t own real estate, most of your net worth is in accessible accounts. That\\'s flexibility.'}}",
+      "nextNode": "chapter_2_summary",
+      "delay": 2500,
+      "computeVariable": {
+        "name": "liquidNetWorth",
+        "logic": "netWorth - (primaryHomeValue + otherRealEstateValue - mortgageBalance)"
+      }
+    },
+
+
+    {
+      "id": "chapter_2_summary",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Alright {{userName}}, here's the summary of where you are today:\n\n**Income:** ${{totalIncome}}/year\n\n**Assets:**\n• Cash: ${{checkingSavings}}\n• Retirement: ${{balance401k + balanceTraditionalIRA + balanceRothIRA}}\n{{hasTaxableBrokerage ? '• Investments: $' + balanceTaxableBrokerage : ''}}{{ownsRealEstate ? '\\n• Real Estate: $' + (primaryHomeValue + otherRealEstateValue) : ''}}{{hasOtherAssets ? '\\n• Other: $' + otherAssetsValue : ''}}\n\n**Debts:**\n{{hasMortgage ? '• Mortgage: $' + mortgageBalance : ''}}{{hasStudentLoans ? '\\n• Student Loans: $' + studentLoanBalance : ''}}{{hasAutoLoan ? '\\n• Auto: $' + autoLoanBalance : ''}}{{hasCreditCardDebt ? '\\n• Credit Cards: $' + creditCardBalance : ''}}{{hasOtherDebt ? '\\n• Other: $' + otherDebtBalance : ''}}{{totalDebt === 0 ? '• None — debt free!' : ''}}\n\n**Net Worth: ${{netWorth}}**",
+      "nextNode": "chapter_2_confirmation",
+      "delay": 4000
+    },
+    {
+      "id": "chapter_2_confirmation",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "Does this look right?",
+      "options": [
+        {
+          "id": "correct",
+          "label": "Yes, that's accurate",
+          "value": "correct",
+          "nextNode": "chapter_2_complete"
+        },
+        {
+          "id": "edit",
+          "label": "I need to change something",
+          "value": "edit",
+          "nextNode": "chapter_2_edit"
+        }
+      ]
+    },
+    {
+      "id": "chapter_2_edit",
+      "type": "choice",
+      "speaker": "ai",
+      "content": "No problem — what would you like to update?",
+      "options": [
+        {
+          "id": "edit_income",
+          "label": "My income",
+          "value": "edit_income",
+          "nextNode": "ask_annual_income"
+        },
+        {
+          "id": "edit_assets",
+          "label": "My assets",
+          "value": "edit_assets",
+          "nextNode": "ask_checking_savings"
+        },
+        {
+          "id": "edit_debts",
+          "label": "My debts",
+          "value": "edit_debts",
+          "nextNode": "ask_has_mortgage"
+        }
+      ]
+    },
+    {
+      "id": "chapter_2_complete",
+      "type": "ai_message",
+      "speaker": "ai",
+      "content": "Perfect. You've completed Chapter 2 — we now know where you are financially.\n\nNext up: let's talk about where you're going — your goals and dreams.",
+      "nextNode": null,
+      "isChapterEnd": true,
+      "nextChapter": "chapter_3",
+      "delay": 2500
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2024-12-04",
+    "author": "Onboarding Team",
+    "totalNodes": 62,
+    "estimatedBranches": 15,
+    "requiredVariables": ["annualIncome", "checkingSavings", "totalAssets", "totalDebt", "netWorth"]
+  }
+}

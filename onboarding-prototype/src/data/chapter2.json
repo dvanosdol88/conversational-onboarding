@@ -1,0 +1,856 @@
+{
+    "chapter": {
+        "id": "chapter_2",
+        "title": "Where You Are",
+        "subtitle": "Your financial snapshot",
+        "estimatedMinutes": 5,
+        "description": "Let's look at the numbers—income, assets, and debts."
+    },
+    "variables": {
+        "annualIncome": {
+            "type": "number",
+            "default": 0
+        },
+        "hasBonus": {
+            "type": "boolean",
+            "default": false
+        },
+        "bonusAmount": {
+            "type": "number",
+            "default": 0
+        },
+        "hasOtherIncome": {
+            "type": "boolean",
+            "default": false
+        },
+        "otherIncomeAmount": {
+            "type": "number",
+            "default": 0
+        },
+        "otherIncomeSource": {
+            "type": "string",
+            "default": ""
+        },
+        "totalIncome": {
+            "type": "number",
+            "default": 0
+        },
+        "checkingSavings": {
+            "type": "number",
+            "default": 0
+        },
+        "has401k": {
+            "type": "boolean",
+            "default": false
+        },
+        "balance401k": {
+            "type": "number",
+            "default": 0
+        },
+        "hasTraditionalIRA": {
+            "type": "boolean",
+            "default": false
+        },
+        "balanceTraditionalIRA": {
+            "type": "number",
+            "default": 0
+        },
+        "hasRothIRA": {
+            "type": "boolean",
+            "default": false
+        },
+        "balanceRothIRA": {
+            "type": "number",
+            "default": 0
+        },
+        "hasPension": {
+            "type": "boolean",
+            "default": false
+        },
+        "pensionDetails": {
+            "type": "string",
+            "default": ""
+        },
+        "hasTaxableBrokerage": {
+            "type": "boolean",
+            "default": false
+        },
+        "balanceTaxableBrokerage": {
+            "type": "number",
+            "default": 0
+        },
+        "ownsRealEstate": {
+            "type": "boolean",
+            "default": false
+        },
+        "primaryHomeValue": {
+            "type": "number",
+            "default": 0
+        },
+        "otherRealEstateValue": {
+            "type": "number",
+            "default": 0
+        },
+        "hasOtherAssets": {
+            "type": "boolean",
+            "default": false
+        },
+        "otherAssetsValue": {
+            "type": "number",
+            "default": 0
+        },
+        "otherAssetsDescription": {
+            "type": "string",
+            "default": ""
+        },
+        "totalAssets": {
+            "type": "number",
+            "default": 0
+        },
+        "hasMortgage": {
+            "type": "boolean",
+            "default": false
+        },
+        "mortgageBalance": {
+            "type": "number",
+            "default": 0
+        },
+        "mortgageRate": {
+            "type": "number",
+            "default": 0
+        },
+        "hasStudentLoans": {
+            "type": "boolean",
+            "default": false
+        },
+        "studentLoanBalance": {
+            "type": "number",
+            "default": 0
+        },
+        "hasAutoLoan": {
+            "type": "boolean",
+            "default": false
+        },
+        "autoLoanBalance": {
+            "type": "number",
+            "default": 0
+        },
+        "hasCreditCardDebt": {
+            "type": "boolean",
+            "default": false
+        },
+        "creditCardBalance": {
+            "type": "number",
+            "default": 0
+        },
+        "hasOtherDebt": {
+            "type": "boolean",
+            "default": false
+        },
+        "otherDebtBalance": {
+            "type": "number",
+            "default": 0
+        },
+        "otherDebtDescription": {
+            "type": "string",
+            "default": ""
+        },
+        "totalDebt": {
+            "type": "number",
+            "default": 0
+        },
+        "netWorth": {
+            "type": "number",
+            "default": 0
+        },
+        "liquidNetWorth": {
+            "type": "number",
+            "default": 0
+        }
+    },
+    "nodes": [
+        {
+            "id": "c2_start",
+            "type": "ai_message",
+            "speaker": "ai",
+            "content": "Welcome to Chapter 2. Now that we know a bit about your background, let's look at where you stand today financially.",
+            "nextNode": "c2_data_method",
+            "delay": 2000
+        },
+        {
+            "id": "c2_data_method",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "How would you like to provide your financial details?",
+            "options": [
+                {
+                    "id": "manual",
+                    "label": "Enter manually",
+                    "value": "manual",
+                    "nextNode": "c2_income_start"
+                },
+                {
+                    "id": "upload",
+                    "label": "Upload statements",
+                    "value": "upload",
+                    "nextNode": "c2_upload_soon"
+                },
+                {
+                    "id": "link",
+                    "label": "Connect accounts",
+                    "value": "link",
+                    "nextNode": "c2_link_soon"
+                }
+            ]
+        },
+        {
+            "id": "c2_upload_soon",
+            "type": "ai_message",
+            "speaker": "ai",
+            "content": "Document upload is coming soon! For now, let's stick to manual entry.",
+            "nextNode": "c2_income_start",
+            "delay": 1500
+        },
+        {
+            "id": "c2_link_soon",
+            "type": "ai_message",
+            "speaker": "ai",
+            "content": "Account linking is coming soon! For now, let's stick to manual entry.",
+            "nextNode": "c2_income_start",
+            "delay": 1500
+        },
+        {
+            "id": "c2_income_start",
+            "type": "input",
+            "speaker": "ai",
+            "content": "Let's start with income. What is your approximate annual income (pre-tax)?",
+            "inputType": "number",
+            "placeholder": "Annual Income",
+            "setsVariable": "annualIncome",
+            "validation": {
+                "required": true,
+                "min": 0
+            },
+            "nextNode": "c2_ask_bonus"
+        },
+        {
+            "id": "c2_ask_bonus",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "Do you receive any annual bonuses or commissions?",
+            "setsVariable": "hasBonus",
+            "options": [
+                {
+                    "id": "yes",
+                    "label": "Yes",
+                    "value": "true",
+                    "nextNode": "c2_bonus_amount"
+                },
+                {
+                    "id": "no",
+                    "label": "No",
+                    "value": "false",
+                    "nextNode": "c2_ask_other_income"
+                }
+            ]
+        },
+        {
+            "id": "c2_bonus_amount",
+            "type": "input",
+            "speaker": "ai",
+            "content": "About how much do you expect in bonuses/commissions this year?",
+            "inputType": "number",
+            "setsVariable": "bonusAmount",
+            "validation": {
+                "min": 0
+            },
+            "nextNode": "c2_ask_other_income"
+        },
+        {
+            "id": "c2_ask_other_income",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "Do you have any other sources of income (rental, side hustle, etc.)?",
+            "setsVariable": "hasOtherIncome",
+            "options": [
+                {
+                    "id": "yes",
+                    "label": "Yes",
+                    "value": "true",
+                    "nextNode": "c2_other_income_details"
+                },
+                {
+                    "id": "no",
+                    "label": "No",
+                    "value": "false",
+                    "nextNode": "c2_calc_income"
+                }
+            ]
+        },
+        {
+            "id": "c2_other_income_details",
+            "type": "multi_input",
+            "speaker": "ai",
+            "content": "Please tell me about that other income.",
+            "inputs": [
+                {
+                    "id": "source",
+                    "label": "Source",
+                    "inputType": "text",
+                    "setsVariable": "otherIncomeSource",
+                    "required": true
+                },
+                {
+                    "id": "amount",
+                    "label": "Annual Amount",
+                    "inputType": "number",
+                    "setsVariable": "otherIncomeAmount",
+                    "required": true
+                }
+            ],
+            "nextNode": "c2_calc_income"
+        },
+        {
+            "id": "c2_calc_income",
+            "type": "ai_message",
+            "speaker": "ai",
+            "content": "Got it. Calculating your total income...",
+            "computeVariable": {
+                "name": "totalIncome",
+                "logic": "Number(annualIncome) + Number(bonusAmount) + Number(otherIncomeAmount)"
+            },
+            "nextNode": "c2_income_summary",
+            "delay": 1000
+        },
+        {
+            "id": "c2_income_summary",
+            "type": "ai_message",
+            "speaker": "ai",
+            "content": "So that's about ${{totalIncome}} coming in annually. {{totalIncome > 200000 ? 'That gives you a lot of options.' : 'Solid foundation to build on.'}}",
+            "nextNode": "c2_assets_start",
+            "delay": 2000
+        },
+        {
+            "id": "c2_assets_start",
+            "type": "input",
+            "speaker": "ai",
+            "content": "Now let's look at what you own (Assets).\n\nRoughly how much do you have in Cash (Checking + Savings)?",
+            "inputType": "number",
+            "setsVariable": "checkingSavings",
+            "validation": {
+                "min": 0
+            },
+            "nextNode": "c2_cash_reaction"
+        },
+        {
+            "id": "c2_cash_reaction",
+            "type": "ai_message",
+            "speaker": "ai",
+            "content": "{{checkingSavings > 50000 ? 'That\\'s a solid cushion.' : 'We might talk about building that up.'}}",
+            "nextNode": "c2_ask_401k",
+            "delay": 1500
+        },
+        {
+            "id": "c2_ask_401k",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "Do you have a 401(k) or similar workplace retirement plan?",
+            "setsVariable": "has401k",
+            "options": [
+                {
+                    "id": "yes",
+                    "label": "Yes",
+                    "value": "true",
+                    "nextNode": "c2_401k_balance"
+                },
+                {
+                    "id": "no",
+                    "label": "No",
+                    "value": "false",
+                    "nextNode": "c2_ask_ira"
+                }
+            ]
+        },
+        {
+            "id": "c2_401k_balance",
+            "type": "input",
+            "speaker": "ai",
+            "content": "What's the approximate balance?",
+            "inputType": "number",
+            "setsVariable": "balance401k",
+            "nextNode": "c2_ask_ira"
+        },
+        {
+            "id": "c2_ask_ira",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "Do you have any IRAs (Traditional or Roth)?",
+            "options": [
+                {
+                    "id": "trad",
+                    "label": "Traditional IRA",
+                    "value": "trad",
+                    "nextNode": "c2_trad_ira_balance"
+                },
+                {
+                    "id": "roth",
+                    "label": "Roth IRA",
+                    "value": "roth",
+                    "nextNode": "c2_roth_ira_balance"
+                },
+                {
+                    "id": "both",
+                    "label": "Both",
+                    "value": "both",
+                    "nextNode": "c2_trad_ira_balance_both"
+                },
+                {
+                    "id": "none",
+                    "label": "Neither",
+                    "value": "none",
+                    "nextNode": "c2_ask_brokerage"
+                }
+            ]
+        },
+        {
+            "id": "c2_trad_ira_balance",
+            "type": "input",
+            "speaker": "ai",
+            "content": "What's the balance in your Traditional IRA?",
+            "inputType": "number",
+            "setsVariable": "balanceTraditionalIRA",
+            "nextNode": "c2_ask_brokerage"
+        },
+        {
+            "id": "c2_roth_ira_balance",
+            "type": "input",
+            "speaker": "ai",
+            "content": "What's the balance in your Roth IRA?",
+            "inputType": "number",
+            "setsVariable": "balanceRothIRA",
+            "nextNode": "c2_ask_brokerage"
+        },
+        {
+            "id": "c2_trad_ira_balance_both",
+            "type": "input",
+            "speaker": "ai",
+            "content": "First, what's in your Traditional IRA?",
+            "inputType": "number",
+            "setsVariable": "balanceTraditionalIRA",
+            "nextNode": "c2_roth_ira_balance_both"
+        },
+        {
+            "id": "c2_roth_ira_balance_both",
+            "type": "input",
+            "speaker": "ai",
+            "content": "And your Roth IRA?",
+            "inputType": "number",
+            "setsVariable": "balanceRothIRA",
+            "nextNode": "c2_ask_brokerage"
+        },
+        {
+            "id": "c2_ask_brokerage",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "Do you have a taxable brokerage account (stocks, bonds, etc. outside retirement)?",
+            "setsVariable": "hasTaxableBrokerage",
+            "options": [
+                {
+                    "id": "yes",
+                    "label": "Yes",
+                    "value": "true",
+                    "nextNode": "c2_brokerage_balance"
+                },
+                {
+                    "id": "no",
+                    "label": "No",
+                    "value": "false",
+                    "nextNode": "c2_ask_real_estate"
+                }
+            ]
+        },
+        {
+            "id": "c2_brokerage_balance",
+            "type": "input",
+            "speaker": "ai",
+            "content": "What is the approximate value?",
+            "inputType": "number",
+            "setsVariable": "balanceTaxableBrokerage",
+            "nextNode": "c2_ask_real_estate"
+        },
+        {
+            "id": "c2_ask_real_estate",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "Do you own any real estate?",
+            "setsVariable": "ownsRealEstate",
+            "options": [
+                {
+                    "id": "yes",
+                    "label": "Yes",
+                    "value": "true",
+                    "nextNode": "c2_real_estate_value"
+                },
+                {
+                    "id": "no",
+                    "label": "No",
+                    "value": "false",
+                    "nextNode": "c2_ask_other_assets"
+                }
+            ]
+        },
+        {
+            "id": "c2_real_estate_value",
+            "type": "multi_input",
+            "speaker": "ai",
+            "content": "What is the estimated value of your properties?",
+            "inputs": [
+                {
+                    "id": "primary",
+                    "label": "Primary Home Value",
+                    "inputType": "number",
+                    "setsVariable": "primaryHomeValue",
+                    "required": true
+                },
+                {
+                    "id": "other",
+                    "label": "Other Real Estate (if any)",
+                    "inputType": "number",
+                    "setsVariable": "otherRealEstateValue",
+                    "required": false
+                }
+            ],
+            "nextNode": "c2_ask_other_assets"
+        },
+        {
+            "id": "c2_ask_other_assets",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "Any other significant assets (business equity, crypto, art, etc.)?",
+            "setsVariable": "hasOtherAssets",
+            "options": [
+                {
+                    "id": "yes",
+                    "label": "Yes",
+                    "value": "true",
+                    "nextNode": "c2_other_assets_details"
+                },
+                {
+                    "id": "no",
+                    "label": "No",
+                    "value": "false",
+                    "nextNode": "c2_calc_assets"
+                }
+            ]
+        },
+        {
+            "id": "c2_other_assets_details",
+            "type": "multi_input",
+            "speaker": "ai",
+            "content": "Please describe them.",
+            "inputs": [
+                {
+                    "id": "desc",
+                    "label": "Description",
+                    "inputType": "text",
+                    "setsVariable": "otherAssetsDescription",
+                    "required": true
+                },
+                {
+                    "id": "val",
+                    "label": "Estimated Value",
+                    "inputType": "number",
+                    "setsVariable": "otherAssetsValue",
+                    "required": true
+                }
+            ],
+            "nextNode": "c2_calc_assets"
+        },
+        {
+            "id": "c2_calc_assets",
+            "type": "ai_message",
+            "speaker": "ai",
+            "content": "Tallying up your assets...",
+            "computeVariable": {
+                "name": "totalAssets",
+                "logic": "Number(checkingSavings) + Number(balance401k) + Number(balanceTraditionalIRA) + Number(balanceRothIRA) + Number(balanceTaxableBrokerage) + Number(primaryHomeValue) + Number(otherRealEstateValue) + Number(otherAssetsValue)"
+            },
+            "nextNode": "c2_assets_summary",
+            "delay": 1000
+        },
+        {
+            "id": "c2_assets_summary",
+            "type": "ai_message",
+            "speaker": "ai",
+            "content": "Impressive. Total assets: ${{totalAssets}}. Now, let's look at the other side of the ledger—debts.",
+            "nextNode": "c2_ask_mortgage",
+            "delay": 2000
+        },
+        {
+            "id": "c2_ask_mortgage",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "Do you have a mortgage?",
+            "setsVariable": "hasMortgage",
+            "options": [
+                {
+                    "id": "yes",
+                    "label": "Yes",
+                    "value": "true",
+                    "nextNode": "c2_mortgage_details"
+                },
+                {
+                    "id": "no",
+                    "label": "No",
+                    "value": "false",
+                    "nextNode": "c2_ask_student_loans"
+                }
+            ]
+        },
+        {
+            "id": "c2_mortgage_details",
+            "type": "multi_input",
+            "speaker": "ai",
+            "content": "What are the details?",
+            "inputs": [
+                {
+                    "id": "bal",
+                    "label": "Remaining Balance",
+                    "inputType": "number",
+                    "setsVariable": "mortgageBalance",
+                    "required": true
+                },
+                {
+                    "id": "rate",
+                    "label": "Interest Rate (%)",
+                    "inputType": "number",
+                    "setsVariable": "mortgageRate",
+                    "required": true
+                }
+            ],
+            "nextNode": "c2_ask_student_loans"
+        },
+        {
+            "id": "c2_ask_student_loans",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "Do you have student loans?",
+            "setsVariable": "hasStudentLoans",
+            "options": [
+                {
+                    "id": "yes",
+                    "label": "Yes",
+                    "value": "true",
+                    "nextNode": "c2_student_loan_balance"
+                },
+                {
+                    "id": "no",
+                    "label": "No",
+                    "value": "false",
+                    "nextNode": "c2_ask_auto_loans"
+                }
+            ]
+        },
+        {
+            "id": "c2_student_loan_balance",
+            "type": "input",
+            "speaker": "ai",
+            "content": "What is the total balance?",
+            "inputType": "number",
+            "setsVariable": "studentLoanBalance",
+            "nextNode": "c2_ask_auto_loans"
+        },
+        {
+            "id": "c2_ask_auto_loans",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "Do you have any auto loans?",
+            "setsVariable": "hasAutoLoan",
+            "options": [
+                {
+                    "id": "yes",
+                    "label": "Yes",
+                    "value": "true",
+                    "nextNode": "c2_auto_loan_balance"
+                },
+                {
+                    "id": "no",
+                    "label": "No",
+                    "value": "false",
+                    "nextNode": "c2_ask_cc_debt"
+                }
+            ]
+        },
+        {
+            "id": "c2_auto_loan_balance",
+            "type": "input",
+            "speaker": "ai",
+            "content": "Total balance on auto loans?",
+            "inputType": "number",
+            "setsVariable": "autoLoanBalance",
+            "nextNode": "c2_ask_cc_debt"
+        },
+        {
+            "id": "c2_ask_cc_debt",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "Do you carry any credit card debt (balances not paid off monthly)?",
+            "setsVariable": "hasCreditCardDebt",
+            "options": [
+                {
+                    "id": "yes",
+                    "label": "Yes",
+                    "value": "true",
+                    "nextNode": "c2_cc_balance"
+                },
+                {
+                    "id": "no",
+                    "label": "No",
+                    "value": "false",
+                    "nextNode": "c2_ask_other_debt"
+                }
+            ]
+        },
+        {
+            "id": "c2_cc_balance",
+            "type": "input",
+            "speaker": "ai",
+            "content": "What is the total outstanding balance?",
+            "inputType": "number",
+            "setsVariable": "creditCardBalance",
+            "nextNode": "c2_ask_other_debt"
+        },
+        {
+            "id": "c2_ask_other_debt",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "Any other debts we should know about?",
+            "setsVariable": "hasOtherDebt",
+            "options": [
+                {
+                    "id": "yes",
+                    "label": "Yes",
+                    "value": "true",
+                    "nextNode": "c2_other_debt_details"
+                },
+                {
+                    "id": "no",
+                    "label": "No",
+                    "value": "false",
+                    "nextNode": "c2_calc_debt"
+                }
+            ]
+        },
+        {
+            "id": "c2_other_debt_details",
+            "type": "multi_input",
+            "speaker": "ai",
+            "content": "Please describe.",
+            "inputs": [
+                {
+                    "id": "desc",
+                    "label": "Description",
+                    "inputType": "text",
+                    "setsVariable": "otherDebtDescription",
+                    "required": true
+                },
+                {
+                    "id": "bal",
+                    "label": "Balance",
+                    "inputType": "number",
+                    "setsVariable": "otherDebtBalance",
+                    "required": true
+                }
+            ],
+            "nextNode": "c2_calc_debt"
+        },
+        {
+            "id": "c2_calc_debt",
+            "type": "ai_message",
+            "speaker": "ai",
+            "content": "Calculating total liabilities...",
+            "computeVariable": {
+                "name": "totalDebt",
+                "logic": "Number(mortgageBalance) + Number(studentLoanBalance) + Number(autoLoanBalance) + Number(creditCardBalance) + Number(otherDebtBalance)"
+            },
+            "nextNode": "c2_calc_net_worth",
+            "delay": 1000
+        },
+        {
+            "id": "c2_calc_net_worth",
+            "type": "ai_message",
+            "speaker": "ai",
+            "content": "Putting it all together...",
+            "computeVariable": {
+                "name": "netWorth",
+                "logic": "totalAssets - totalDebt"
+            },
+            "nextNode": "c2_reveal_net_worth",
+            "delay": 2000
+        },
+        {
+            "id": "c2_reveal_net_worth",
+            "type": "ai_message",
+            "speaker": "ai",
+            "content": "Based on what you've shared, your Net Worth is **${{netWorth}}**.\n\n(Assets: ${{totalAssets}} - Debts: ${{totalDebt}})",
+            "nextNode": "c2_summary_confirm",
+            "delay": 2000
+        },
+        {
+            "id": "c2_summary_confirm",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "Does that look about right?",
+            "options": [
+                {
+                    "id": "yes",
+                    "label": "Yes, looks good",
+                    "value": "yes",
+                    "nextNode": "c2_complete"
+                },
+                {
+                    "id": "edit",
+                    "label": "Something is off",
+                    "value": "edit",
+                    "nextNode": "c2_edit_options"
+                }
+            ]
+        },
+        {
+            "id": "c2_edit_options",
+            "type": "choice",
+            "speaker": "ai",
+            "content": "What would you like to update?",
+            "options": [
+                {
+                    "id": "income",
+                    "label": "Income",
+                    "value": "income",
+                    "nextNode": "c2_income_start"
+                },
+                {
+                    "id": "assets",
+                    "label": "Assets",
+                    "value": "assets",
+                    "nextNode": "c2_assets_start"
+                },
+                {
+                    "id": "debts",
+                    "label": "Debts",
+                    "value": "debts",
+                    "nextNode": "c2_ask_mortgage"
+                }
+            ]
+        },
+        {
+            "id": "c2_complete",
+            "type": "ai_message",
+            "speaker": "ai",
+            "content": "Great. We have a clear picture of where you are. Next, we'll talk about where you want to go.",
+            "isChapterEnd": true,
+            "nextChapter": "chapter_3",
+            "nextNode": null,
+            "delay": 2000
+        }
+    ]
+}
