@@ -36,16 +36,7 @@ function App() {
     setInputValue('');
   }, [currentNode?.id]);
 
-  // Handle Chapter Transition
-  useEffect(() => {
-    if (currentNode?.type === 'ai_message' && currentNode.isChapterEnd && currentNode.nextChapter === 'chapter_2') {
-      // Small delay for effect
-      const timer = setTimeout(() => {
-        loadChapter(chapter2Data);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [currentNode, loadChapter]);
+
 
   // Calculate progress (rough estimate based on message count)
   const isChapter2 = currentNode?.id?.startsWith('c2_');
@@ -100,6 +91,17 @@ function App() {
   // Render the appropriate input component
   const renderInputArea = () => {
     if (state.isComplete) {
+      if (currentNode?.type === 'ai_message' && currentNode.nextChapter === 'chapter_2') {
+        return (
+          <div className="flex justify-center p-4">
+            <ContinueButton
+              onClick={() => loadChapter(chapter2Data)}
+              label="Continue to Chapter 2"
+            />
+          </div>
+        );
+      }
+
       return (
         <div className="text-center p-4 text-gray-500">
           Chapter completed.

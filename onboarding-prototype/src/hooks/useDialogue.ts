@@ -56,7 +56,7 @@ export function useDialogue(chapterData: ChapterData) {
             addMessage('ai', text, node.id);
 
             if (node.isChapterEnd) {
-                setState(prev => ({ ...prev, isComplete: true, currentNodeId: null }));
+                setState(prev => ({ ...prev, isComplete: true }));
             } else if (node.nextNode) {
                 setState(prev => ({ ...prev, currentNodeId: node.nextNode }));
             }
